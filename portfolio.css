@@ -1,0 +1,123 @@
+/* --- Custom Stylesheet for Glitch & Datastream Portfolio --- */
+
+body {
+    font-family: 'Space Mono', monospace;
+    background-color: #0A0A0A;
+    color: #00FF00;
+    overflow: hidden;
+}
+
+/* The main container to hold all content */
+.terminal-container {
+    max-width: 900px;
+    height: 100vh;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 2rem;
+}
+
+/* The main glitched text effect */
+.glitch {
+    position: relative;
+    text-shadow: 0 0 5px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00;
+    animation: glitch 1s infinite;
+}
+
+.glitch:before, .glitch:after {
+    content: attr(data-text);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: #0A0A0A;
+}
+
+.glitch:before {
+    clip-path: polygon(0 0, 100% 0, 100% 30%, 0 30%);
+    left: 2px;
+    text-shadow: -1px 0 #ff00ff;
+}
+
+.glitch:after {
+    clip-path: polygon(0 70%, 100% 70%, 100% 100%, 0 100%);
+    left: -2px;
+    text-shadow: 1px 0 #00ffff;
+}
+
+@keyframes glitch {
+    0% { transform: translate(0); }
+    20% { transform: translate(-5px, 5px); }
+    40% { transform: translate(-5px, -5px); }
+    60% { transform: translate(5px, 5px); }
+    80% { transform: translate(5px, -5px); }
+    100% { transform: translate(0); }
+}
+
+/* The datastream effect for background */
+.datastream {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+}
+.datastream span {
+    position: absolute;
+    bottom: -50px;
+    color: rgba(0, 255, 0, 0.1);
+    font-size: 20px;
+    animation: datastream-flow 10s linear infinite;
+}
+@keyframes datastream-flow {
+    to { transform: translateY(-100vh); }
+}
+/* Style for the visible content sections */
+.content-section {
+    border: 2px solid #00ff00;
+    box-shadow: 0 0 10px #00ff00;
+    padding: 2rem;
+    margin-top: 2rem;
+    animation: decode-in 1s forwards;
+    opacity: 0;
+    transform: translateY(20px);
+}
+.content-section.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+.decoded-text {
+    animation: decode-text 1.5s forwards;
+    opacity: 0;
+    filter: blur(5px);
+}
+@keyframes decode-text {
+    to { opacity: 1; filter: blur(0); }
+}
+.text-glow {
+    text-shadow: 0 0 5px #00ff00;
+}
+.bio-refiner-container {
+    border-top: 1px solid #00ff00;
+    padding-top: 1rem;
+    margin-top: 1rem;
+}
+.bio-input, .bio-output {
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid #00ff00;
+    color: #00ff00;
+    box-shadow: 0 0 5px #00ff00;
+}
+.loading-text {
+    animation: pulse 1.5s infinite;
+}
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
