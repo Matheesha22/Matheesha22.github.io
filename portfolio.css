@@ -20,11 +20,11 @@ body {
     padding: 2rem;
 }
 
-/* The main glitched text effect */
+/* The main glitched text effect — single color, no shadow, no animation */
 .glitch {
     position: relative;
-    text-shadow: 0 0 5px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00;
-    animation: glitch 1s infinite;
+    color: rgba(11,122,11,0.85); /* dimmer, less bright green */
+    animation: none !important;
 }
 
 .glitch:before, .glitch:after {
@@ -34,31 +34,19 @@ body {
     top: 0;
     width: 100%;
     height: 100%;
-    background: #0A0A0A;
+    color: rgba(11,122,11,0.85); /* same dim color for pseudo layers */
+    background: transparent;
+    pointer-events: none;
+    transform: none;
+    opacity: 1;
 }
 
-.glitch:before {
-    clip-path: polygon(0 0, 100% 0, 100% 30%, 0 30%);
-    left: 2px;
-    text-shadow: -1px 0 #ff00ff;
-}
-
-.glitch:after {
-    clip-path: polygon(0 70%, 100% 70%, 100% 100%, 0 100%);
-    left: -2px;
-    text-shadow: 1px 0 #00ffff;
-}
-
+/* remove or disable the previous glitch keyframe usage (keeps file safe if keyframes remain) */
 @keyframes glitch {
-    0% { transform: translate(0); }
-    20% { transform: translate(-5px, 5px); }
-    40% { transform: translate(-5px, -5px); }
-    60% { transform: translate(5px, 5px); }
-    80% { transform: translate(5px, -5px); }
-    100% { transform: translate(0); }
+    /* empty */
 }
 
-/* The datastream effect for background */
+/* The datastream effect for background (unchanged) */
 .datastream {
     position: absolute;
     top: 0;
@@ -78,10 +66,11 @@ body {
 @keyframes datastream-flow {
     to { transform: translateY(-100vh); }
 }
-/* Style for the visible content sections */
+
+/* Style for the visible content sections - remove box-shadow */
 .content-section {
     border: 2px solid #00ff00;
-    box-shadow: 0 0 10px #00ff00;
+    /* box-shadow removed */
     padding: 2rem;
     margin-top: 2rem;
     animation: decode-in 1s forwards;
@@ -100,9 +89,13 @@ body {
 @keyframes decode-text {
     to { opacity: 1; filter: blur(0); }
 }
+
+/* remove text-shadow from glows */
 .text-glow {
-    text-shadow: 0 0 5px #00ff00;
+    /* no text-shadow */
 }
+
+/* bio refiner inputs - remove box-shadow */
 .bio-refiner-container {
     border-top: 1px solid #00ff00;
     padding-top: 1rem;
@@ -112,12 +105,49 @@ body {
     background-color: rgba(0, 0, 0, 0.5);
     border: 1px solid #00ff00;
     color: #00ff00;
-    box-shadow: 0 0 5px #00ff00;
+    /* box-shadow removed */
 }
+
+/* loading pulse (keeps opacity pulse) */
 .loading-text {
     animation: pulse 1.5s infinite;
 }
 @keyframes pulse {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.5; }
+}
+
+/* FORCE: make intro text completely static and a single, reduced‑light color, no shadow */
+#intro-prompt,
+#intro-prompt::before,
+#intro-prompt::after {
+    animation: none !important;
+    transition: none !important;
+    color: rgba(11,122,11,0.85) !important; /* reduced brightness */
+    transform: none !important;
+    opacity: 1 !important;
+    mix-blend-mode: normal !important;
+}
+
+/* Ensure pseudo-elements show the same text, no clipping/offset */
+#intro-prompt::before,
+#intro-prompt::after {
+    content: attr(data-text);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    color: inherit !important;
+    /* no text-shadow */
+    clip-path: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    pointer-events: none;
+}
+
+/* If you used .glitch class elsewhere, keep it non-animating too */
+.glitch {
+    animation: none !important;
+    transition: none !important;
 }
